@@ -25,16 +25,16 @@ The terminal will then prompt for a location where the key pair will be stored. 
 
 You can also modify the flag arguments as needed to suit your needs.
 
-1. The `-t` flag is used to specify the type of key that will be generated.
-  1. By default, the `ssh-keygen` command will use `rsa` to generate [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) key pairs.
-  2. You can also use `dsa` for [DSA](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm) key pairs. Due to security concerns, it is not commonly used anymore.
-  3. Instead of `dsa`, you could use `ecdsa` to generate [ECDSA](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) key pairs. It is considered more secure than its counterpart.
-  4. Finally, there is also the `ed25519` option to generate [Ed25519](https://en.wikipedia.org/wiki/EdDSA#Ed25519) key pairs. It is currently considered one of the most secure types of keys. This is also what GitHub will ask you for.
-2. The `-C` flag is used to append a comment to your key pair. It is typically good practice to label your keys for organization. Here are some examples you may want to use:
-  1. `just@your.email`
-  2. `123.41.234.5`
-  3. `username@123.41.234.5`
-3. The `ssh-keygen` command has many other flags and you can explore them [here](https://linux.die.net/man/1/ssh-keygen).
+- The `-t` flag is used to specify the type of key that will be generated.
+  - By default, the `ssh-keygen` command will use `rsa` to generate [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) key pairs.
+  - You can also use `dsa` for [DSA](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm) key pairs. Due to security concerns, it is not commonly used anymore.
+  - Instead of `dsa`, you could use `ecdsa` to generate [ECDSA](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) key pairs. It is considered more secure than its counterpart.
+  - Finally, there is also the `ed25519` option to generate [Ed25519](https://en.wikipedia.org/wiki/EdDSA#Ed25519) key pairs. It is currently considered one of the most secure types of keys. This is also what GitHub will ask you for.
+- The `-C` flag is used to append a comment to your key pair. It is typically good practice to label your keys for organization. Here are some examples you may want to use:
+  - `just@your.email`
+  - `123.41.234.5`
+  - `username@123.41.234.5`
+- The `ssh-keygen` command has many other flags and you can explore them [here](https://linux.die.net/man/1/ssh-keygen).
 
 ### Registering Private Key
 
