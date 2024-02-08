@@ -1,0 +1,61 @@
+---
+title: "Creating SSH Keys"
+date: "2024-02-07"
+tags: ["SSH"]
+category: "Cloud"
+summary: "A summary on how to generate SSH keys for secure authentication, encryption, and access control in SSH protocol."
+updated: "2024-02-07"
+---
+
+## Introduction
+
+Whenever I am setting up Git on a new device or connecting with a new remote server, I always seem to forget the steps for generating an SSH key. This post will serve as a personal refresher and a quick guide for anyone looking to make keys for similar purposes. The process itself is pretty straightforward and just involves a few steps.
+
+## Procedure
+
+### Generating The Key Pair
+
+Start by opening up a terminal and generating a public-private key pair using the `ssh-keygen` command.
+
+```bash
+ssh-keygen -t ed25519 -C "user@example.com"
+```
+
+The terminal will then prompt for a location where the key pair will be stored. It will also ask for a passphrase. These are all optional steps and you can skip them if not needed. 
+
+You can also modify the flag arguments as needed to suit your needs.
+
+1. The `-t` flag is used to specify the type of key that will be generated.
+  - By default, the `ssh-keygen` command will use `rsa` to generate [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) key pairs.
+  - You can also use `dsa` for [DSA](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm) key pairs. Due to security concerns, it is not commonly used anymore.
+  - Instead of `dsa`, you could use `ecdsa` to generate [ECDSA](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) key pairs. It is considered more secure than its counterpart.
+  - Finally, there is also the `ed25519` option to generate [Ed25519](https://en.wikipedia.org/wiki/EdDSA#Ed25519) key pairs. It is currently considered one of the most secure types of keys. This is also what GitHub will ask you for.
+2. The `-C` flag is used to append a comment to your key pair. It is typically good practice to label your keys for organization. Here are some examples you may want to use:
+  - `just@your.email`
+  - `123.41.234.5`
+  - `username@123.41.234.5`
+3. The `ssh-keygen` command has many other flags and you can explore them [here](https://linux.die.net/man/1/ssh-keygen).
+
+### Registering Private Key
+
+Just generating your key pair is not enough for it to become usable. You still need to add the private key to your `ssh-agent`. To do this, you can run the following command.
+
+```bash
+ssh-add /path/to/your/private/key
+```
+
+**Note**: You may get an error if the `ssh-agent` service is not running. To ensure the service is running, run this command and verify that the service is running on some process.
+
+```bash
+eval "$(ssh-agent -s)"
+```
+
+### Using Public Key
+
+Once you have added your private key to the `ssh-agent`, your key pair is ready to be used. All that is left is that you just need to add the public key to whatever application you want to access with SSH. If it is GitHub, you can navigate to the [settings](https://github.com/settings/keys) page to add your public key.
+
+If it is a remote server and you have a username-password login, you can use the following command to automatically add your public key to its `known_hosts`.
+
+```bash
+ssh-copy-id -i /path/to/your/public/key username@remote_host
+```
