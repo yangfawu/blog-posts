@@ -1,0 +1,16 @@
+---
+title: "Deploy Keys"
+date: "2024-02-10"
+tags: ["GitHub", "Keys", "Deployment"]
+category: "Security"
+summary: "A quick guide on how to add read-only SSH keys to a repository for deployment."
+updated: "2024-02-10"
+---
+
+I recently found myself in a situation where I needed to access a private repository on my GitHub account in order to deploy the code on a remote server that I was playing around with. I could've obviously just generated a SSH key pair on the server and then add the public key to my GitHub account. However, doing so will grant the server with pretty much complete access to everything on my GitHub account. Since this remote server was just a sandbox, I did not trust establishing such a link between it and my account.
+
+That was when I discover that Github repositories has a feature called "Deploy Keys". This feature allows you add a public key to a select repository so that whatever machine with the private counterpart can make pull requests to said repository even if it is private. The nice thing about this is that only the selected repository can be accessed - which means that all the other private repositories are completely out of the machine's reach. Another great feature is that the machine, by default, can only make pull requests - it has no permissions to make any commits. All of this would've not been possible had I went with the regular method of just adding an SSH key pair to my account.
+
+![github settings](https://raw.githubusercontent.com/yangfawu/blog-posts/main/images/deploy-keys-settings.png)
+
+If you want to try out this feature on a repository that you manage, you can navigate to `https://github.com/[github username]/[repo name]/settings/keys/new`. If you need a quick guide on generating SSH keys, you can check my post [here](https://yangfawu-blog.vercel.app/post/ssh-keys).
