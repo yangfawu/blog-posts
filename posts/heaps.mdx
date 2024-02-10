@@ -1,0 +1,80 @@
+---
+title: "Heaps"
+date: "2024-02-10"
+tags: ["Algorithms", "Data Structures"]
+category: "Data Structures"
+summary: "A summary on how to implement a binary min-heap."
+updated: "2024-02-10"
+---
+
+## Introduction
+
+A heap is a data structure that I come across very often in many applications. It pops up whenever there is a need for priority-based operations like determining the current min/max or best node candidate for a graph algorithm. It is a very useful and simple DS and this post will outline the typical implementation of a binary (min) heap.
+
+## Implementation
+
+### Code
+
+```py
+class Heap:
+    def __init__(self):
+        self.arr = []
+    
+    def push(self, val: int):
+        self.arr.append(val)
+        self.__bubble_up(len(self.arr) - 1)
+    
+    def __bubble_up(self, idx: int) -> None:
+        while idx > 0:
+            parent_idx = (idx - 1) >> 1
+            if self.arr[idx] >= self.heap[parent_idx]:
+                break
+            
+            self.arr[idx], self.arr[parent_idx] = self.arr[parent_idx], self.arr[idx]
+            idx = parent_idx
+    
+    def peek(self) -> int:
+        return self.arr[0]
+    
+    def pop(self) -> int:
+        root = self.arr[0]
+        last_val = self.arr.pop()
+
+        if len(self.heap) > 0:
+            self.arr[0] = last_val
+            self.__drill_down(0)
+
+        return root
+    
+    def __drill_down(self, idx: int) -> None:
+        parent_idx = idx
+        while True:
+            left_child_idx = (parent_idx >> 1) + 1
+            right_child_idx = left_child_idx + 1
+            smallest_idx = parent_idx
+
+            if (left_child_idx < len(self.arr) and self.arr[left_child_idx] < self.arr[smallest_idx]):
+                smallest_idx = left_child_idx
+
+            if (right_child_idx < len(self.arr) and self.arr[right_child_idx] < self.arr[smallest_idx]):
+                smallest_idx = right_child_idx
+
+            if smallest_idx == parent_idx:
+                break
+            
+            self.arr[parent_idx], self.arr[smallest_idx] = self.arr[smallest_idx], self.arr[parent_idx]
+            parent_idx = smallest_idx
+
+```
+
+### Explanation
+
+Even though a heap is technically represented as a specialized tree, its actual implementation uses a regular list or array to store its items. It is not using some chain of pointers like a linked list or trie. What makes it different from a regular array is the relationship established between the indices. In a min-heap, `arr[i]` will always be less than or equal to its children `arr[2*i + 1]` and `arr[2*i + 2]`. With some intuition, you can see how `arr[0]` will always be the smallest element in a min-heap. Whenever you add a new element or pop out the current smallest, you need to fix your your regular array in order to maintain this "heap" property for future operations.
+
+In the `Heap.push` method, we simply add the newest element to the end of the internal array. However, this new item could be smaller than some of the items already in the heap. It could also be the new smallest item in the heap. If we leave the item at the end of the array, we risk not maintaining the "heap" property of the array. For this reason, we have a method called `__bubble_up` that runs in `O(log n)` time to "bubble" the newest element up the tree as much as possible. It will stop bubbling up that item when the item is not smaller than its newest parent.
+
+In the `Heap.pop` method, we are simply removing the first element of the internal array to obtain the smallest item. However, this operation obviously creates a gap in our array when there are still other elements remaining in the heap. To preserve the "heap" property, we can move the last element of the internal array into the first index and then use a process that I called "drilling down" to fix the array. The "drilling down" process is another `O(log n)` method and it works by trying to swap the current item with its smallest corresponding child in the array. It will repeat process until none of the item's newest children are smaller than it.
+
+## Expansion
+
+Even though the implementation above is only for a min-heap, it can be easily modified into a max-heap by flipping the comparisons to have the largest item at `arr[0]`. The implementation above can also be adapted to other data types besides integers. For example, you can use a custom comparator if you need to compare two items that uses multiple properties to determine their priorities. The point is that this data structure is inherently very compact, elegant, and customizable for many applications.
