@@ -27,7 +27,7 @@ class Heap:
     def __bubble_up(self, idx: int) -> None:
         while idx > 0:
             parent_idx = (idx - 1) >> 1
-            if self.arr[idx] >= self.heap[parent_idx]:
+            if self.arr[idx] >= self.arr[parent_idx]:
                 break
             
             self.arr[idx], self.arr[parent_idx] = self.arr[parent_idx], self.arr[idx]
